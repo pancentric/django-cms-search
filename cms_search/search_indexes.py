@@ -90,11 +90,13 @@ def page_index_factory(language_code, proxy_model):
                 qs = base_qs.published(site=site_obj.id).filter(
                     Q(title_set__language=language_code) & (Q(title_set__redirect__exact='') | Q(title_set__redirect__isnull=True)))
                 qs = qs.filter(publisher_is_draft=False)
+                qs = qs.filter(in_navigation=True)
                 qs = qs.distinct()
                 result_qs |= qs
             return result_qs
 
     return _PageIndex
+
 
 # we don't want the globals() style which was used in models.py ...
 def push_indices():
