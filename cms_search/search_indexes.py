@@ -71,7 +71,11 @@ def page_index_factory(language_code, proxy_model):
                 text += u' '
                 text += obj.get_title() or u''
                 text += u' '
-                text += obj.get_meta_keywords() or u''
+
+                # django-cms 3 page model has no more get_meta_keywords()
+                if hasattr(obj, 'get_meta_keywords'):
+                    text += obj.get_meta_keywords() or u''
+
                 self.prepared_data['text'] = text
 #                self.prepared_data['language'] = self.language
                 return self.prepared_data
